@@ -1,0 +1,86 @@
+4️⃣ How it works (line by line)
+
+Imports
+
+import streamlit as st
+from PyPDF2 import PdfReader
+import ollama
+
+
+streamlit → builds the web interface.
+
+PdfReader → reads PDF pages.
+
+ollama → talks to your Ollama model.
+
+Title
+
+st.title("📄 PDF Q&A with Ollama")
+
+
+Shows a big heading on the web page.
+
+File uploader
+
+uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
+
+
+Lets the user pick a PDF from their computer.
+
+Extract PDF text
+
+if uploaded_file:
+    reader = PdfReader(uploaded_file)
+    document_text = ""
+    for page in reader.pages:
+        document_text += page.extract_text() + "\n"
+
+
+Reads all pages and combines them into a single string.
+
+Show PDF loaded message
+
+st.success("PDF loaded successfully!")
+
+
+Displays a green success message.
+
+Input box for question
+
+question = st.text_input("Ask a question about the PDF:")
+
+
+Lets the user type a question about the PDF.
+
+Send prompt to Ollama
+
+prompt = f"Here is a document:\n{document_text}\n\nQuestion: {question}"
+
+response = ollama.chat(
+    model="tinyllama",
+    messages=[{"role": "user", "content": prompt}]
+)
+
+
+Combines PDF text and question into one prompt.
+
+Sends it to Ollama using tinyllama.
+
+response contains the model’s answer.
+
+Display the answer
+
+st.subheader("Answer:")
+st.write(response["message"]["content"])
+
+
+Shows the Ollama answer on the web page.
+
+5️⃣ Run the App
+
+In terminal:
+
+streamlit run ollama_pdf_app.py
+
+
+Your browser opens → upload PDF → type questions → see answers instantly.
