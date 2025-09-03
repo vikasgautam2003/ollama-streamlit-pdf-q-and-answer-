@@ -1,8 +1,8 @@
-name: Sync GitHub Repo to HF Space
+name: Sync GitHub Repo to Hugging Face Space
 
 on:
   push:
-    branches: [ main ]  # triggers workflow on push to main branch
+    branches: [ main ]  # trigger on push to main branch
 
 jobs:
   sync_space:
@@ -13,15 +13,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # 2️⃣ Configure Python
+      # 2️⃣ Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      # 3️⃣ Install git (if not present)
-      - name: Install git
-        run: sudo apt-get update && sudo apt-get install -y git
+      # 3️⃣ Install dependencies
+      - name: Install dependencies
+        run: pip install huggingface_hub
 
       # 4️⃣ Push to Hugging Face Space
       - name: Push to HF Space
@@ -32,18 +32,21 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-          # Clone Hugging Face Space using token for HTTPS auth
-          git clone https://$HF_TOKEN@huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_ hf-space
+          # Clone the Hugging Face Space (read-only)
+          git clone https://huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_ hf-space
           cd hf-space
 
-          # Copy only required files from GitHub repo
+          # Fix remote for push with token
+          git remote set-url origin https://$HF_TOKEN@huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_
+
+          # Copy files from GitHub repo
           cp ../pdfSummary.py .
           cp ../requirements.txt .
           cp ../start.sh .
           cp ../README_HD.md .
           cp -r ../notes.txt . || echo "notes.txt not found, skipping"
 
-          # Commit & push changes using token
+          # Commit & push changes
           git add .
           git commit -m "Auto-sync from GitHub" || echo "No changes to commit"
-          git push https://$HF_TOKEN@huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_ main
+          git push origin main
