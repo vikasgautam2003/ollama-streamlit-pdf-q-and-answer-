@@ -32,7 +32,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-          # Clone Hugging Face Space using token
+          # Clone Hugging Face Space using token for HTTPS auth
           git clone https://$HF_TOKEN@huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_ hf-space
           cd hf-space
 
@@ -43,7 +43,7 @@ jobs:
           cp ../README_HD.md .
           cp -r ../notes.txt . || echo "notes.txt not found, skipping"
 
-          # Commit & push changes
+          # Commit & push changes using token
           git add .
           git commit -m "Auto-sync from GitHub" || echo "No changes to commit"
           git push https://$HF_TOKEN@huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_ main
