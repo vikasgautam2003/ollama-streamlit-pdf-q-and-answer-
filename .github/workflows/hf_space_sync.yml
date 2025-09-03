@@ -2,7 +2,7 @@ name: Sync GitHub Repo to HF Space
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main ]  # triggers workflow on push to main branch
 
 jobs:
   sync_space:
@@ -32,14 +32,18 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-          # Clone Hugging Face Space using token for HTTPS auth
+          # Clone Hugging Face Space using token
           git clone https://$HF_TOKEN@huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_ hf-space
           cd hf-space
 
-          # Copy files from GitHub repo to HF Space
-          cp -r ../* .
+          # Copy only required files from GitHub repo
+          cp ../pdfSummary.py .
+          cp ../requirements.txt .
+          cp ../start.sh .
+          cp ../README_HD.md .
+          cp -r ../notes.txt . || echo "notes.txt not found, skipping"
 
-          # Commit and push
+          # Commit & push changes
           git add .
           git commit -m "Auto-sync from GitHub" || echo "No changes to commit"
           git push https://$HF_TOKEN@huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_ main
