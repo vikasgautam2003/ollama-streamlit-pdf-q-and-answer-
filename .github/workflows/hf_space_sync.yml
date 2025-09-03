@@ -2,7 +2,7 @@ name: Sync GitHub Repo to Hugging Face Space
 
 on:
   push:
-    branches: [ main ]  # trigger on push to main branch
+    branches: [ main ]  # Trigger workflow on push to main branch
 
 jobs:
   sync_space:
@@ -10,7 +10,7 @@ jobs:
 
     steps:
       # 1️⃣ Checkout GitHub repo
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       # 2️⃣ Set up Python
@@ -20,7 +20,7 @@ jobs:
           python-version: "3.10"
 
       # 3️⃣ Install dependencies
-      - name: Install dependencies
+      - name: Install huggingface_hub
         run: pip install huggingface_hub
 
       # 4️⃣ Push to Hugging Face Space
@@ -32,12 +32,9 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-          # Clone the Hugging Face Space (read-only)
-          git clone https://huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_ hf-space
+          # Clone HF Space using token directly (read/write)
+          git clone https://$HF_TOKEN@huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_ hf-space
           cd hf-space
-
-          # Fix remote for push with token
-          git remote set-url origin https://$HF_TOKEN@huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_
 
           # Copy files from GitHub repo
           cp ../pdfSummary.py .
@@ -46,7 +43,7 @@ jobs:
           cp ../README_HD.md .
           cp -r ../notes.txt . || echo "notes.txt not found, skipping"
 
-          # Commit & push changes
+          # Commit & push
           git add .
           git commit -m "Auto-sync from GitHub" || echo "No changes to commit"
-          git push origin main
+          git push https://$HF_TOKEN@huggingface.co/spaces/vikasgautam2003/ollama_streamlit_pdf_q_and_answer_ main
