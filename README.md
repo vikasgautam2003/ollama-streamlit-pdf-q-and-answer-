@@ -1,93 +1,78 @@
-# 📄 Ollama PDF Q & Ans
+# 📄 Ollama PDF Q&A + Summarizer  
 
-An AI-powered PDF Question-Answering and Summarization app built with **Streamlit** and **Ollama (TinyLlama)**.  
-This project demonstrates how to integrate **local LLMs** with a modern web UI for document understanding.  
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)  
+[![Streamlit](https://img.shields.io/badge/Framework-Streamlit-red?logo=streamlit)](https://streamlit.io/)  
+[![Docker](https://img.shields.io/badge/Container-Docker-blue?logo=docker)](https://www.docker.com/)  
+[![Ollama](https://img.shields.io/badge/LLM-Ollama-black?logo=ai)](https://ollama.ai/)  
+[![TinyLlama](https://img.shields.io/badge/Model-TinyLlama-green)](https://huggingface.co/TinyLlama)  
+
+> ⚡ An **AI-powered PDF Question-Answering and Summarization app** built with **Streamlit** and **Ollama (TinyLlama)**.  
+> Upload a PDF, ask questions, and get instant AI-generated answers + summaries.  
 
 ---
 
 ## 🚀 Features  
-- 📑 Upload any PDF document  
-- 🤖 Ask questions about the document content  
-- 📝 Generate AI-powered summaries  
-- ⚡ Powered by [Ollama](https://ollama.ai/) running **TinyLlama** locally  
-- 🌐 Web UI built with [Streamlit](https://streamlit.io/)  
+✅ Upload any PDF document  
+✅ Ask **questions** about the document  
+✅ Get **summaries** powered by TinyLlama  
+✅ Modern **Streamlit web UI**  
+✅ Dockerized for easy deployment  
 
 ---
 
 ## 🛠️ Tech Stack  
-- **LLM Backend** → Ollama (TinyLlama)  
-- **Frontend** → Streamlit  
-- **Containerization** → Docker  
+- **Backend (LLM)** → [Ollama](https://ollama.ai/) (TinyLlama model)  
+- **Frontend** → [Streamlit](https://streamlit.io/)  
+- **Containerization** → [Docker](https://www.docker.com/)  
 - **Language** → Python 3.10+  
 
 ---
 
 ## 📂 Project Structure  
-├── app.py / pdfSummary.py # Main Streamlit app
-├── requirements.txt # Python dependencies
-├── start.sh # Startup script (Ollama + Streamlit)
-├── Dockerfile # Container setup
-├── notes.txt # Development notes
-└── README.md # Project documentation
+```bash
+├── pdfSummary.py       # Main Streamlit app
+├── requirements.txt    # Python dependencies
+├── start.sh            # Startup script (Ollama + Streamlit)
+├── Dockerfile          # Container setup
+├── notes.txt           # Dev notes
+└── README.md           # Project docs
 
 
 
+⚙️ Setup Instructions
+🔹 Run Locally
 
----
+# 1. Install Ollama
+curl https://ollama.ai/install.sh | sh
 
-## ⚙️ Setup Instructions  
+# 2. Pull TinyLlama model
+ollama pull tinyllama
 
-### 🔹 Option A: Run Locally  
-1. Install [Ollama](https://ollama.ai/)  
-2. Pull the TinyLlama model:  
-   ```bash
-   ollama pull tinyllama
-
-
-
-Install Python dependencies:
-
+# 3. Install dependencies
 pip install -r requirements.txt
 
-
-Run the app:
-
+# 4. Start the app
 streamlit run pdfSummary.py --server.port 8501 --server.address 0.0.0.0
 
-🔹 Option B: Run with Docker
 
-Build the image:
+🔹 Run with Docker
 
+# 1. Build Docker image
 docker build -t ollama_pdf_app .
 
-
-Run the container:
-
+# 2. Run the container
 docker run -p 8501:8501 ollama_pdf_app
 
-🎯 Use Case
 
-This project is ideal for:
+🎯 Use Cases
 
-Showcasing LLM integration skills
+Showcasing LLM integration skills in portfolio
 
-Building AI-powered portfolio projects
+Building AI-powered PDF assistants
 
-Demonstrating document question answering
+Demonstrating document Q&A systems
 
-📸 Demo (Screenshots / Video)
+📸 Demo
 
-👉 Add screenshots of your UI here
-👉 (Optional) Upload a short demo video / GIF
 
-💡 Future Improvements
 
-Support for larger models (Mistral, Llama 3)
-
-Deploy lightweight version on free hosting (Render / Railway)
-
-Hugging Face Space demo
-
-👨‍💻 Author
-
-Vikas Gautam
